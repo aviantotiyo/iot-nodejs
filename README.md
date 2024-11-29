@@ -1,7 +1,3 @@
-Berikut adalah contoh **README.md** yang bisa Anda gunakan untuk dokumentasi API yang telah Anda buat. README ini mencakup informasi dasar tentang API, bagaimana cara mengakses masing-masing endpoint, dan contoh respons API.
-
-### README.md
-
 ```markdown
 # IoT Gateway for Climate Change API
 
@@ -24,7 +20,7 @@ This API serves as a gateway for IoT sensor data used in climate change analysis
 All API requests are made to the following base URL:
 ```
 
-http://your-api-url.com
+https://iot.generasienergi.my.id
 
 ```
 
@@ -45,7 +41,7 @@ Retrieve air quality data from the **CCS811** sensor for a specific date.
 ##### Example Request:
 ```
 
-GET http://your-api-url.com/ccs811/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+GET https://iot.generasienergi.my.id/ccs811/Your_Secret_Key/2024-07-12
 
 ````
 
@@ -83,7 +79,7 @@ Retrieve data from the **DHT21** sensor, including temperature and humidity.
 ##### Example Request:
 
 ```
-GET http://your-api-url.com/dht21/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+GET https://iot.generasienergi.my.id/dht21/Your_Secret_Key/2024-07-12
 ```
 
 ##### Example Response:
@@ -115,7 +111,7 @@ Retrieve flow rate and total volume data from the **Flowrate** sensor.
 ##### Example Request:
 
 ```
-GET http://your-api-url.com/flowrate/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+GET https://iot.generasienergi.my.id/flowrate/Your_Secret_Key/2024-07-12
 ```
 
 ##### Example Response:
@@ -147,7 +143,7 @@ Retrieve irradiance and power data from the **Irradiance** sensor.
 ##### Example Request:
 
 ```
-GET http://your-api-url.com/irradiance/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+GET https://iot.generasienergi.my.id/irradiance/Your_Secret_Key/2024-07-12
 ```
 
 ##### Example Response:
@@ -179,7 +175,7 @@ Retrieve data from the **Pzem017** sensor, including voltage, current, power, an
 ##### Example Request:
 
 ```
-GET http://your-api-url.com/pzem017/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+GET https://iot.generasienergi.my.id/pzem017/Your_Secret_Key/2024-07-12
 ```
 
 ##### Example Response:
@@ -238,9 +234,14 @@ This API provides real-time sensor data for IoT applications related to climate 
 - **Authentication**: Menjelaskan bahwa API ini memerlukan `secretkey` untuk otentikasi.
 - **Error Responses**: Memberikan panduan mengenai berbagai kode status HTTP yang bisa diterima dan contoh error response.
 
-### Start Server
-sudo npm install pm2@latest -g
+### Clone dari github
+npm install
 
+### Start Server
+sudo npm install pm2@latest -g (sekali saja)
+
+
+### Start API DATA
 pm2 start server.js --name "iot-gateway"
 
 pm2 startup
