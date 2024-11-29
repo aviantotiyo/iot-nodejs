@@ -238,4 +238,11 @@ This API provides real-time sensor data for IoT applications related to climate 
 - **Authentication**: Menjelaskan bahwa API ini memerlukan `secretkey` untuk otentikasi.
 - **Error Responses**: Memberikan panduan mengenai berbagai kode status HTTP yang bisa diterima dan contoh error response.
 
+### Start Server
+sudo npm install pm2@latest -g
+
+pm2 start server.js --name "iot-gateway"
+
+pm2 startup
+pm2 save
 ```
