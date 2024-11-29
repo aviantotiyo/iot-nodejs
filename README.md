@@ -238,8 +238,4 @@ This API provides real-time sensor data for IoT applications related to climate 
 - **Authentication**: Menjelaskan bahwa API ini memerlukan `secretkey` untuk otentikasi.
 - **Error Responses**: Memberikan panduan mengenai berbagai kode status HTTP yang bisa diterima dan contoh error response.
 
-### Langkah Selanjutnya:
-Anda bisa menyesuaikan bagian URL dengan URL API Anda sendiri dan melengkapi informasi yang relevan sesuai dengan struktur aplikasi Anda.
-
-Dengan README.md ini, pengembang atau pengguna API dapat dengan mudah memahami bagaimana cara mengakses data dari sensor dan memanfaatkan API dengan benar.
 ```
