@@ -1,266 +1,245 @@
-````markdown
+Berikut adalah contoh **README.md** yang bisa Anda gunakan untuk dokumentasi API yang telah Anda buat. README ini mencakup informasi dasar tentang API, bagaimana cara mengakses masing-masing endpoint, dan contoh respons API.
+
+### README.md
+
+```markdown
 # IoT Gateway for Climate Change API
 
-This is a Node.js-based API designed to serve as a gateway for IoT sensors related to climate change monitoring. The API collects data from various sensors, such as air quality sensors (ccs811), humidity and temperature sensors (dht21), water flow sensors (flowrate), solar irradiance sensors (irradiance), and power consumption sensors (pzem017). This data can be used for analyzing air quality, water usage, and energy production, especially for Solar Water Pumps and climate change studies.
+This API serves as a gateway for IoT sensor data used in climate change analysis. It collects and provides sensor data such as air quality, solar water pump monitoring, and other climate-related metrics. The API allows you to retrieve data from various sensors, including **CCS811**, **DHT21**, **Flowrate**, **Irradiance**, and **Pzem017**.
 
-## Features
+## Table of Contents
 
-- Collects data from various IoT sensors (ccs811, dht21, flowrate, irradiance, pzem017,etc)
-- Provides secure access to data through an API with secret key validation
-- Supports filtering data by date for each sensor
+- [Base URL](#base-url)
+- [Endpoints](#endpoints)
+  - [GET /ccs811/secretkey/{date}](#get-ccs811secretkeydate)
+  - [GET /dht21/secretkey/{date}](#get-dht21secretkeydate)
+  - [GET /flowrate/secretkey/{date}](#get-flowratesecretkeydate)
+  - [GET /irradiance/secretkey/{date}](#get-irradiancesecretkeydate)
+  - [GET /pzem017/secretkey/{date}](#get-pzem017secretkeydate)
+- [Authentication](#authentication)
+- [Error Responses](#error-responses)
 
-## Prerequisites
+## Base URL
 
-Before you begin, ensure that you have the following installed on your machine:
+All API requests are made to the following base URL:
+```
 
-- **Node.js** (version 16 or above)
-- **MySQL Database** with the required tables (`ccs811`, `dht21`, `flowrate`, `irradiance`, `pzem017`)
+http://your-api-url.com
 
-## Installation
+```
 
-1. Clone this repository:
+### Authentication
+To access the data, a **secret key** is required for each endpoint. You must provide the correct secret key as part of the request URL.
 
-   ```bash
-   git clone https://github.com/yourusername/iot-gateway-climate-change.git
-   cd iot-gateway-climate-change
-   ```
+### Endpoints
 
-2. Install the dependencies:
+#### 1. GET /ccs811/secretkey/{date}
+Retrieve air quality data from the **CCS811** sensor for a specific date.
 
-   ```bash
-   npm install
-   ```
-
-3. Create a `.env` file to configure your environment variables:
-
-   ```bash
-   touch .env
-   ```
-
-   Inside `.env`, add your database configuration and secret key:
-
-   ```env
-   DB_HOST=localhost
-   DB_USER=your_db_user
-   DB_PASSWORD=your_db_password
-   DB_NAME=your_db_name
-   SECRET_KEY=your-secret-key-here
-   ```
-
-4. Start the server:
-
-   ```bash
-   npm start
-   ```
-
-   The API will be accessible at `http://localhost:3000`.
-
-## API Endpoints
-
-### 1. **CCS811 - Air Quality Sensor**
-
-- **Endpoint**: `/ccs811/:secretkey/:date`
+- **URL**: `/ccs811/secretkey/{date}`
 - **Method**: `GET`
-- **Description**: Retrieve air quality data from the `ccs811` sensor for a specific date. The date format should be `YYYY-MM-DD`.
-- **Example Request**:
+- **URL Params**:
+  - `secretkey` (required): The secret key to authenticate the request.
+  - `date` (required): Date in the format `YYYY-MM-DD` to filter data based on the `updated_at` field.
 
-  ```bash
-  GET http://localhost:3000/ccs811/your-secret-key-here/2024-07-13
-  ```
+##### Example Request:
+```
 
-- **Response**:
+GET http://your-api-url.com/ccs811/9d6118c54119056bf73b3dbfb6b341/2024-07-12
 
-  ```json
-  {
-    "code": 200,
-    "message": "Success",
-    "data": [
-      {
-        "id": 178,
-        "eco2": "524",
-        "tvoc": "18",
-        "updated_at": "2024-07-13 00:00:00"
-      },
-      {
-        "id": 179,
-        "eco2": "491",
-        "tvoc": "13",
-        "updated_at": "2024-07-13 00:05:00"
-      }
-    ]
-  }
-  ```
-
-- **Error Codes**:
-  - `400`: Invalid date format.
-  - `403`: Forbidden (invalid secret key).
-  - `404`: No data found for the specified date.
-
-### 2. **DHT21 - Temperature and Humidity Sensor**
-
-- **Endpoint**: `/dht21/:secretkey/:date`
-- **Method**: `GET`
-- **Description**: Retrieve temperature and humidity data from the `dht21` sensor for a specific date.
-- **Example Request**:
-
-  ```bash
-  GET http://localhost:3000/dht21/your-secret-key-here/2024-07-13
-  ```
-
-- **Response**:
-
-  ```json
-  {
-    "code": 200,
-    "message": "Success",
-    "data": [
-      {
-        "id": 593,
-        "hum": "65.1",
-        "temp": "30.5",
-        "updated_at": "2024-07-13 00:10:00"
-      }
-    ]
-  }
-  ```
-
-- **Error Codes**:
-  - `400`: Invalid date format.
-  - `403`: Forbidden (invalid secret key).
-  - `404`: No data found for the specified date.
-
-### 3. **Flowrate - Water Flow Sensor**
-
-- **Endpoint**: `/flowrate/:secretkey/:date`
-- **Method**: `GET`
-- **Description**: Retrieve water flow and total volume data from the `flowrate` sensor for a specific date.
-- **Example Request**:
-
-  ```bash
-  GET http://localhost:3000/flowrate/your-secret-key-here/2024-07-13
-  ```
-
-- **Response**:
-
-  ```json
-  {
-    "code": 200,
-    "message": "Success",
-    "data": [
-      {
-        "id": 179,
-        "flowRate": "15.73333",
-        "totalVolume": "78.45556",
-        "updated_at": "2024-07-13 00:05:00"
-      }
-    ]
-  }
-  ```
-
-- **Error Codes**:
-  - `400`: Invalid date format.
-  - `403`: Forbidden (invalid secret key).
-  - `404`: No data found for the specified date.
-
-### 4. **Irradiance - Solar Irradiance Sensor**
-
-- **Endpoint**: `/irradiance/:secretkey/:date`
-- **Method**: `GET`
-- **Description**: Retrieve solar irradiance and power data from the `irradiance` sensor for a specific date.
-- **Example Request**:
-
-  ```bash
-  GET http://localhost:3000/irradiance/your-secret-key-here/2024-07-24
-  ```
-
-- **Response**:
-
-  ```json
-  {
-    "code": 200,
-    "message": "Success",
-    "data": [
-      {
-        "id": 2,
-        "irradiance": "1255.438",
-        "power_irr": "114.2448",
-        "updated_at": "2024-07-24 11:45:00"
-      }
-    ]
-  }
-  ```
-
-- **Error Codes**:
-  - `400`: Invalid date format.
-  - `403`: Forbidden (invalid secret key).
-  - `404`: No data found for the specified date.
-
-### 5. **PZEM017 - Power Meter Sensor**
-
-- **Endpoint**: `/pzem017/:secretkey/:date`
-- **Method**: `GET`
-- **Description**: Retrieve power, voltage, current, and energy data from the `pzem017` sensor for a specific date.
-- **Example Request**:
-
-  ```bash
-  GET http://localhost:3000/pzem017/your-secret-key-here/2024-11-29
-  ```
-
-- **Response**:
-
-  ```json
-  {
-    "code": 200,
-    "message": "Success",
-    "data": [
-      {
-        "id": 18509,
-        "voltage": "9.85",
-        "current": "0.279",
-        "power": "27.4",
-        "energy": "16546",
-        "updated_at": "2024-11-29 00:05:00"
-      }
-    ]
-  }
-  ```
-
-- **Error Codes**:
-  - `400`: Invalid date format.
-  - `403`: Forbidden (invalid secret key).
-  - `404`: No data found for the specified date.
-
-## Error Handling
-
-The API returns standardized JSON responses for all errors, including:
-
-- `400` (Bad Request): Invalid input, such as incorrect date format.
-- `403` (Forbidden): Invalid or missing secret key.
-- `404` (Not Found): No data available for the requested date.
-- `500` (Internal Server Error): Unexpected errors on the server side.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- Thanks to the developers of [Express.js](https://expressjs.com/) and [MySQL2](https://www.npmjs.com/package/mysql2) for providing the tools used in this API.
 ````
 
-### Penjelasan `README.md`:
+##### Example Response:
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 178,
+      "eco2": "524",
+      "tvoc": "18",
+      "updated_at": "2024-07-13 00:00:00"
+    },
+    {
+      "id": 179,
+      "eco2": "491",
+      "tvoc": "13",
+      "updated_at": "2024-07-13 00:05:00"
+    }
+  ]
+}
+````
 
-1. **Deskripsi Proyek**:
+#### 2. GET /dht21/secretkey/{date}
 
-   - Menyediakan gambaran umum tentang proyek API yang digunakan sebagai IoT Gateway untuk pemantauan perubahan iklim, dengan berbagai sensor untuk kualitas udara, suhu dan kelembaban, aliran air, dan pengukuran daya.
+Retrieve data from the **DHT21** sensor, including temperature and humidity.
 
-2. **Instruksi Instalasi**:
+- **URL**: `/dht21/secretkey/{date}`
+- **Method**: `GET`
+- **URL Params**:
+  - `secretkey` (required): The secret key for authentication.
+  - `date` (required): Date in the format `YYYY-MM-DD` to filter data.
 
-   - Menyediakan langkah-langkah untuk menginstal dan menjalankan API, termasuk pengaturan file `.env` dan instruksi untuk menjalankan server.
+##### Example Request:
 
-3. **Dokumentasi API**:
+```
+GET http://your-api-url.com/dht21/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+```
 
-   - Setiap endpoint dijelaskan dengan jelas, termasuk contoh request, response, dan kode kesalahan yang mungkin terjadi.
+##### Example Response:
 
-4. **Error Handling**:
-   - Menyertakan penjelasan tentang
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 593,
+      "hum": "65.1",
+      "temp": "30.5",
+      "updated_at": "2024-07-13 00:10:00"
+    }
+  ]
+}
+```
+
+#### 3. GET /flowrate/secretkey/{date}
+
+Retrieve flow rate and total volume data from the **Flowrate** sensor.
+
+- **URL**: `/flowrate/secretkey/{date}`
+- **Method**: `GET`
+- **URL Params**:
+  - `secretkey` (required): The secret key for authentication.
+  - `date` (required): Date in the format `YYYY-MM-DD` to filter data.
+
+##### Example Request:
+
+```
+GET http://your-api-url.com/flowrate/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+```
+
+##### Example Response:
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 179,
+      "flowRate": "15.73333",
+      "totalVolume": "78.45556",
+      "updated_at": "2024-07-13 00:05:00"
+    }
+  ]
+}
+```
+
+#### 4. GET /irradiance/secretkey/{date}
+
+Retrieve irradiance and power data from the **Irradiance** sensor.
+
+- **URL**: `/irradiance/secretkey/{date}`
+- **Method**: `GET`
+- **URL Params**:
+  - `secretkey` (required): The secret key for authentication.
+  - `date` (required): Date in the format `YYYY-MM-DD` to filter data.
+
+##### Example Request:
+
+```
+GET http://your-api-url.com/irradiance/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+```
+
+##### Example Response:
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 2,
+      "irradiance": "1255.438",
+      "power_irr": "114.2448",
+      "updated_at": "2024-07-24 11:45:00"
+    }
+  ]
+}
+```
+
+#### 5. GET /pzem017/secretkey/{date}
+
+Retrieve data from the **Pzem017** sensor, including voltage, current, power, and energy.
+
+- **URL**: `/pzem017/secretkey/{date}`
+- **Method**: `GET`
+- **URL Params**:
+  - `secretkey` (required): The secret key for authentication.
+  - `date` (required): Date in the format `YYYY-MM-DD` to filter data.
+
+##### Example Request:
+
+```
+GET http://your-api-url.com/pzem017/9d6118c54119056bf73b3dbfb6b341/2024-07-12
+```
+
+##### Example Response:
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 18509,
+      "voltage": "9.85",
+      "current": "0.279",
+      "power": "27.4",
+      "energy": "16546",
+      "updated_at": "2024-11-29 00:05:00"
+    }
+  ]
+}
+```
+
+## Authentication
+
+Each request requires a valid **secret key** to access the data. The secret key must be passed as a part of the URL in the following format: `/secretkey/{date}`. The key ensures that unauthorized users cannot access sensitive sensor data.
+
+To get the secret key, please contact your system administrator.
+
+## Error Responses
+
+The API will return standard HTTP status codes for errors, along with a message explaining the issue.
+
+- **200 OK**: The request was successful.
+- **400 Bad Request**: Missing or incorrect parameters.
+- **401 Unauthorized**: Invalid or missing secret key.
+- **404 Not Found**: The requested resource was not found.
+- **500 Internal Server Error**: An error occurred on the server.
+
+### Example Error Response:
+
+```json
+{
+  "code": 400,
+  "message": "Invalid secret key"
+}
+```
+
+## Conclusion
+
+This API provides real-time sensor data for IoT applications related to climate change, such as air quality monitoring, temperature and humidity, flow rate measurement, and solar irradiance. Use the provided endpoints to retrieve data from various sensors by specifying the correct date and secret key.
+
+```
+
+### Penjelasan:
+
+- **Base URL**: Tempat Anda mengakses semua endpoint API.
+- **Endpoints**: Menyediakan penjelasan tentang cara mengakses data dari masing-masing sensor, termasuk format URL dan contoh response.
+- **Authentication**: Menjelaskan bahwa API ini memerlukan `secretkey` untuk otentikasi.
+- **Error Responses**: Memberikan panduan mengenai berbagai kode status HTTP yang bisa diterima dan contoh error response.
+
+### Langkah Selanjutnya:
+Anda bisa menyesuaikan bagian URL dengan URL API Anda sendiri dan melengkapi informasi yang relevan sesuai dengan struktur aplikasi Anda.
+
+Dengan README.md ini, pengembang atau pengguna API dapat dengan mudah memahami bagaimana cara mengakses data dari sensor dan memanfaatkan API dengan benar.
+```
