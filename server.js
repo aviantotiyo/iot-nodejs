@@ -33,12 +33,16 @@ const dht21Routes = require('./routes/dht21');
 const flowrateRoutes = require('./routes/flowrate'); 
 const irradianceRoutes = require('./routes/irradiance');
 const pzem017Routes = require('./routes/pzem017');
+const tdsRoutes = require('./routes/tds');
+const phRoutes = require('./routes/ph');
 
 app.use('/ccs811', ccs811Routes(db));
 app.use('/dht21', dht21Routes(db));
 app.use('/flowrate', flowrateRoutes(db));
 app.use('/irradiance', irradianceRoutes(db));
 app.use('/pzem017', pzem017Routes(db));
+app.use('/tds', tdsRoutes(db));
+app.use('/ph', phRoutes(db));
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
