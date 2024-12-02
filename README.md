@@ -196,6 +196,74 @@ GET https://iot.generasienergi.my.id/pzem017/Your_Secret_Key/2024-07-12
 }
 ```
 
+#### 6. GET /tds/secretkey/{date}
+
+Retrieve data from the **TDS** sensor, including suhu, v_tds, TDS and EC.
+
+- **URL**: `/tds/secretkey/{date}`
+- **Method**: `GET`
+- **URL Params**:
+  - `secretkey` (required): The secret key for authentication.
+  - `date` (required): Date in the format `YYYY-MM-DD` to filter data.
+  - `TDS (Total Dissolved Solids)`: Ppm or mg/L
+  - `EC (Electrical Conductivity)`: µS/cm (mikrosiemens per sentimeter)
+
+##### Example Request:
+
+```
+GET https://iot.generasienergi.my.id/tds/Your_Secret_Key/2024-07-12
+```
+
+##### Example Response:
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 29,
+      "suhu": "27.44",
+      "v_tds": "3.66",
+      "tds": "317",
+      "ec": "158.5",
+      "updated_at": "2024-11-29 00:05:00"
+    }
+  ]
+}
+```
+
+#### 7. GET /ph/secretkey/{date}
+
+Retrieve data from the **PH** sensor, including v_ph and PH.
+
+- **URL**: `/ph/secretkey/{date}`
+- **Method**: `GET`
+- **URL Params**:
+  - `secretkey` (required): The secret key for authentication.
+  - `date` (required): Date in the format `YYYY-MM-DD` to filter data.
+
+##### Example Request:
+
+```
+GET https://iot.generasienergi.my.id/ph/Your_Secret_Key/2024-07-12
+```
+
+##### Example Response:
+
+```json
+{
+  "code": 200,
+  "data": [
+    {
+      "id": 30,
+      "v_ph": "3.26",
+      "ph": "7.75",
+      "updated_at": "2024-11-29 00:05:00"
+    }
+  ]
+}
+```
+
 ## Authentication
 
 Each request requires a valid **secret key** to access the data. The secret key must be passed as a part of the URL in the following format: `/secretkey/{date}`. The key ensures that unauthorized users cannot access sensitive sensor data.
