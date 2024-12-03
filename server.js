@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config(); // Memuat variabel lingkungan dari file .env
 
 const app = express();
-const port = 3120;
+const port = 3123;
 
 // Koneksi ke database MySQL
 const db = mysql.createConnection({
