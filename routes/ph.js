@@ -38,11 +38,11 @@ module.exports = (db) => {
 
       // Jika data ditemukan, konversi 'updated_at' ke GMT+7
       if (results.length > 0) {
-        // Menambahkan konversi waktu GMT+7 untuk setiap hasil
         const resultsWithUpdatedAtGMT7 = results.map(result => {
-          const jakartaTime = new Date(result.updated_at); // waktu dalam UTC
-          const jakartaTimeGMT7 = new Date(jakartaTime.getTime() + (7 * 60 * 60 * 1000)); // menambahkan 7 jam untuk konversi ke GMT+7
-          const updatedAtGMT7 = jakartaTimeGMT7.toISOString().replace('T', ' ').substring(0, 19); // Format: YYYY-MM-DD HH:mm:ss
+          // Konversi UTC ke GMT+7 (menambah 7 jam)
+          const utcTime = new Date(result.updated_at); // waktu dalam UTC
+          const jakartaTime = new Date(utcTime.getTime() + (7 * 60 * 60 * 1000)); // Menambahkan 7 jam
+          const updatedAtGMT7 = jakartaTime.toISOString().replace('T', ' ').substring(0, 19); // Format: YYYY-MM-DD HH:mm:ss
 
           // Mengembalikan data dengan waktu yang sudah dikonversi ke GMT+7
           return {
