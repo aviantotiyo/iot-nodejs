@@ -24,7 +24,7 @@ module.exports = (db) => {
       });
     }
 
-    // Query untuk mengambil data dari tabel 'pzem017' berdasarkan tanggal
+    // Query untuk mengambil data dari tabel 'ph' berdasarkan tanggal
     const query = 'SELECT id, v_ph, ph, updated_at FROM ph WHERE updated_at LIKE ? ORDER BY updated_at DESC';
 
     db.query(query, [`${date}%`], (err, results) => {
@@ -36,12 +36,26 @@ module.exports = (db) => {
         });
       }
 
-      // Jika data ditemukan, kembalikan respons JSON
+      // Jika data ditemukan, konversi 'updated_at' ke GMT+7
       if (results.length > 0) {
+        // Menambahkan konversi waktu GMT+7 untuk setiap hasil
+        const resultsWithUpdatedAtGMT7 = results.map(result => {
+          const jakartaTime = new Date(result.updated_at); // waktu dalam UTC
+          const jakartaTimeGMT7 = new Date(jakartaTime.getTime() + (7 * 60 * 60 * 1000)); // menambahkan 7 jam untuk konversi ke GMT+7
+          const updatedAtGMT7 = jakartaTimeGMT7.toISOString().replace('T', ' ').substring(0, 19); // Format: YYYY-MM-DD HH:mm:ss
+
+          // Mengembalikan data dengan waktu yang sudah dikonversi ke GMT+7
+          return {
+            ...result,
+            updated_at: updatedAtGMT7
+          };
+        });
+
+        // Mengirimkan data yang sudah dikonversi
         return res.status(200).json({
           code: 200,
           message: 'Success',
-          data: results
+          data: resultsWithUpdatedAtGMT7
         });
       } else {
         // Jika tidak ada data ditemukan
