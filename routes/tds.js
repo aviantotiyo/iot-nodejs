@@ -24,7 +24,7 @@ module.exports = (db) => {
       });
     }
 
-    // Query untuk mengambil data dari tabel 'tds' berdasarkan tanggal
+    // Query untuk mengambil data dari tabel 'pzem017' berdasarkan tanggal
     const query = 'SELECT id, suhu, v_tds, tds, ec, updated_at FROM tds WHERE updated_at LIKE ? ORDER BY updated_at DESC';
 
     db.query(query, [`${date}%`], (err, results) => {
@@ -36,26 +36,12 @@ module.exports = (db) => {
         });
       }
 
-      // Jika data ditemukan, konversi 'updated_at' ke GMT+7
+      // Jika data ditemukan, kembalikan respons JSON
       if (results.length > 0) {
-        const resultsWithUpdatedAtGMT7 = results.map(result => {
-          // Konversi UTC ke GMT+7 (menambah 7 jam)
-          const utcTime = new Date(result.updated_at); // waktu dalam UTC
-          const jakartaTime = new Date(utcTime.getTime() + (7 * 60 * 60 * 1000)); // Menambahkan 7 jam
-          const updatedAtGMT7 = jakartaTime.toISOString().replace('T', ' ').substring(0, 19); // Format: YYYY-MM-DD HH:mm:ss
-
-          // Mengembalikan data dengan waktu yang sudah dikonversi ke GMT+7
-          return {
-            ...result,
-            updated_at: updatedAtGMT7
-          };
-        });
-
-        // Mengirimkan data yang sudah dikonversi
         return res.status(200).json({
           code: 200,
           message: 'Success',
-          data: resultsWithUpdatedAtGMT7
+          data: results
         });
       } else {
         // Jika tidak ada data ditemukan
