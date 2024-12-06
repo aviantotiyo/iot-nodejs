@@ -318,4 +318,8 @@ pm2 save
 ### Cek status
 sudo systemctl start pm2-engine
 sudo systemctl status pm2-engine
+
+### memastikan PM2 sudah autostart
+sudo pm2 startup systemd -u engine --hp /home/engine
+
 ```
