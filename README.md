@@ -322,4 +322,7 @@ sudo systemctl status pm2-engine
 ### memastikan PM2 sudah autostart
 sudo pm2 startup systemd -u engine --hp /home/engine
 
+### Cara melihat log dari PM2
+sudo journalctl -u pm2-engine.service -n 50
+
 ```
