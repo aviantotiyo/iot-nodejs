@@ -314,4 +314,8 @@ pm2 start server.js --name "iot-gateway"
 
 pm2 startup
 pm2 save
+
+### Cek status
+sudo systemctl start pm2-engine
+sudo systemctl status pm2-engine
 ```
