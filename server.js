@@ -44,6 +44,10 @@ app.use('/pzem017', pzem017Routes(db));
 app.use('/tds', tdsRoutes(db));
 app.use('/ph', phRoutes(db));
 
-app.listen(port, () => {
+app.listen(port, (err) => {
+  if (err) {
+    console.error(`Error starting server: ${err.message}`);
+    process.exit(1);  // Keluar dengan kode kesalahan
+  }
   console.log(`Server running on http://localhost:${port}`);
 });
